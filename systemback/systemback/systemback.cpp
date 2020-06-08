@@ -1082,6 +1082,8 @@ void systemback::unitimer()
 
             if(ui->installpanel->isVisible())
             {
+                ui->usernamepipe->show();
+                ui->fullnamepipe->show();
                 if(ui->installmenu->isEnabled() && ui->fullnamepipe->isVisible() && ui->usernamepipe->isVisible() && ui->hostnamepipe->isVisible() && ui->passwordpipe->isVisible() && (ui->rootpassword1->text().isEmpty() || ui->rootpasswordpipe->isVisible()) && ! ui->installnext->isEnabled()) ui->installnext->setEnabled(true);
             }
             else if(ui->livepanel->isVisible())
@@ -5446,7 +5448,7 @@ void systemback::on_livelist_currentItemChanged(QLWI *crrnt)
             if(! ui->livedelete->isEnabled()) ui->livedelete->setEnabled(true);
             ullong isize(sb::fsize(sb::sdir[2] % '/' % sb::left(crrnt->text(), sb::instr(crrnt->text(), " ") - 1) % ".sblive"));
 
-            if(isize && isize < 4294967295 && isize * 2 + 104857600 < sb::dfree(sb::sdir[2]) && ! sb::exist(sb::sdir[2] % '/' % sb::left(crrnt->text(), sb::instr(crrnt->text(), " ") - 1) % ".iso"))
+            if(isize && isize * 2 + 104857600 < sb::dfree(sb::sdir[2]) && ! sb::exist(sb::sdir[2] % '/' % sb::left(crrnt->text(), sb::instr(crrnt->text(), " ") - 1) % ".iso"))
             {
                 if(! ui->liveconvert->isEnabled()) ui->liveconvert->setEnabled(true);
             }
@@ -7445,9 +7447,10 @@ void systemback::on_livenew_clicked()
             pset(20, " 4/3+1"),
             sb::Progress = -1;
             if(! (sb::rename(sb::sdir[2] % "/.sblivesystemcreate/syslinux/syslinux.cfg", sb::sdir[2] % "/.sblivesystemcreate/syslinux/isolinux.cfg") && sb::rename(sb::sdir[2] % "/.sblivesystemcreate/syslinux", sb::sdir[2] % "/.sblivesystemcreate/isolinux")) || intrrpt) return err();
+            if(! sb::copy("/usr/lib/ISOLINUX/isohdpfx.bin", sb::sdir[2] % "/.sblivesystemcreate/isolinux/isohdpfx.bin")) return err();
             ui->progressbar->setValue(0);
 
-            if(sb::exec("genisoimage -r -V sblive -cache-inodes -J -l -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table -c isolinux/boot.cat -o \"" % sb::sdir[2] % "\"/" % ifname % ".iso \"" % sb::sdir[2] % "\"/.sblivesystemcreate", sb::Prgrss))
+            if(sb::exec("xorriso -as mkisofs -V sblive -cache-inodes -J -R -isohybrid-mbr \"" % sb::sdir[2] % "/.sblivesystemcreate/isolinux/isohdpfx.bin\" -c isolinux/boot.cat -b isolinux/isolinux.bin -iso-level 3 -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -o \"" % sb::sdir[2] % "\"/" % ifname % ".iso \"" % sb::sdir[2] % "\"/.sblivesystemcreate", sb::Prgrss))
             {
                 if(sb::isfile(sb::sdir[2] % '/' % ifname % ".iso")) sb::remove(sb::sdir[2] % '/' % ifname % ".iso");
                 return err(312);
@@ -7482,11 +7485,11 @@ void systemback::on_liveconvert_clicked()
     sb::ThrdLng[0] = sb::fsize(path % ".sblive"), sb::ThrdStr[0] = sb::sdir[2] % "/.sblivesystemconvert";
     if(sb::exec("tar -xf \"" % path % "\".sblive -C \"" % sb::sdir[2] % "\"/.sblivesystemconvert --no-same-owner --no-same-permissions", sb::Prgrss)) return err(326);
     if(! (sb::rename(sb::sdir[2] % "/.sblivesystemconvert/syslinux/syslinux.cfg", sb::sdir[2] % "/.sblivesystemconvert/syslinux/isolinux.cfg") && sb::rename(sb::sdir[2] % "/.sblivesystemconvert/syslinux", sb::sdir[2] % "/.sblivesystemconvert/isolinux")) || intrrpt) return err(324);
+    if(! sb::copy("/usr/lib/ISOLINUX/isohdpfx.bin", sb::sdir[2] % "/.sblivesystemconvert/isolinux/isohdpfx.bin")) return err(324);
     pset(21, " 2/2"),
     sb::Progress = -1,
     ui->progressbar->setValue(0);
-    if(sb::exec("genisoimage -r -V sblive -cache-inodes -J -l -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table -c isolinux/boot.cat -o \"" % path % "\".iso \"" % sb::sdir[2] % "\"/.sblivesystemconvert", sb::Prgrss)) return err(325);
-    if(sb::exec("isohybrid \"" % path % "\".iso") || ! cfmod(path % ".iso", 0666)) return err();
+    if(sb::exec("xorriso -as mkisofs -V sblive -cache-inodes -J -R -isohybrid-mbr \"" % sb::sdir[2] % "/.sblivesystemconvert/isolinux/isohdpfx.bin\" -c isolinux/boot.cat -b isolinux/isolinux.bin -iso-level 3 -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -o \"" % path % "\".iso \"" % sb::sdir[2] % "\"/.sblivesystemconvert", sb::Prgrss)) return err(325);
     sb::remove(sb::sdir[2] % "/.sblivesystemconvert");
     if(intrrpt) return err();
     emptycache(),

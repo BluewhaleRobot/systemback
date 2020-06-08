@@ -281,6 +281,9 @@
        <property name="acceptDrops">
         <bool>false</bool>
        </property>
+       <property name="text">
+        <string>xiaoqiang</string>
+       </property>
        <property name="maxLength">
         <number>80</number>
        </property>
@@ -448,6 +451,9 @@
        </property>
        <property name="acceptDrops">
         <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>xiaoqiang</string>
        </property>
        <property name="maxLength">
         <number>32</number>
@@ -5329,6 +5335,9 @@
        </property>
        <property name="text">
         <string>Copy user data files</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
       <widget class="QComboBox" name="grubinstallcopy">

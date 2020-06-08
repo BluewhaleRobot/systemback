@@ -806,7 +806,7 @@ uchar sb::exec(cQStr &cmd, uchar flag, cQStr &envv)
     else
     {
         silent = flag != (flag & ~Silent), wait = flag != (flag & ~Wait);
-        if((rprcnt = (bckgrnd = flag != (flag & ~Bckgrnd)) || wait || flag == (flag & ~Prgrss) ? 0 : cmd.startsWith("mksquashfs") ? 1 : cmd.startsWith("genisoimage") ? 2 : cmd.startsWith("tar -cf") ? 3 : cmd.startsWith("tar -xf") ? 4 : 0)) Progress = 0;
+        if((rprcnt = (bckgrnd = flag != (flag & ~Bckgrnd)) || wait || flag == (flag & ~Prgrss) ? 0 : cmd.startsWith("mksquashfs") ? 1 : cmd.startsWith("xorriso") ? 2 : cmd.startsWith("tar -cf") ? 3 : cmd.startsWith("tar -xf") ? 4 : 0)) Progress = 0;
     }
 
     QProcess proc;
