@@ -1,4 +1,7 @@
-systemback (1.8.402) release; urgency=low
+systemback (1.8.5) release; urgency=low
+
+  * 1.8.5
+  * Add support for Ubuntu 20.04 and large iso
 
   * 1.8.402
   * Fix Live creation when the '/snap' directory is missing
@@ -50,4 +53,4 @@ systemback (1.8.402) release; urgency=low
   * Some minor fixes and improvements
   * Import new Hungarian translations
 
- -- Kende Krisztián <nemh@freemail.hu>  Mon, 16 May 2016 13:04:46 +0200
+ -- Zhang weijia <randoms@bwbot.org>  Mon, 8 Jun 2020 20:51:25 +0800

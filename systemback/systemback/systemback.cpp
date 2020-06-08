@@ -1729,13 +1729,13 @@ void systemback::abtreleased()
 {
     if(ui->homepage1->foregroundRole() == QPalette::Highlight)
         ui->homepage1->setForegroundRole(QPalette::Text),
-        sb::exec("su -c \"xdg-open https://sourceforge.net/projects/systemback &\" " % guname(), sb::Bckgrnd);
+        sb::exec("su -c \"xdg-open https://github.com/BluewhaleRobot/systemback &\" " % guname(), sb::Bckgrnd);
     else if(ui->homepage2->foregroundRole() == QPalette::Highlight)
         ui->homepage2->setForegroundRole(QPalette::Text),
         sb::exec("su -c \"xdg-open https://launchpad.net/systemback &\" " % guname(), sb::Bckgrnd);
     else if(ui->email->foregroundRole() == QPalette::Highlight)
         ui->email->setForegroundRole(QPalette::Text),
-        sb::exec("su -c \"xdg-email nemh@freemail.hu &\" " % guname(), sb::Bckgrnd);
+        sb::exec("su -c \"xdg-email randoms@bwbot.org &\" " % guname(), sb::Bckgrnd);
     else if(ui->donate->foregroundRole() == QPalette::Highlight)
         ui->donate->setForegroundRole(QPalette::Text),
         sb::exec("su -c \"xdg-open 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZQ668BBR7UCEQ' &\" " % guname(), sb::Bckgrnd);

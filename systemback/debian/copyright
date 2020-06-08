@@ -1,9 +1,8 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
 Upstream-Name: Systemback
-Source: https://sourceforge.net/projects/systemback/files
+Source: https://github.com/BluewhaleRobot/systemback
 
 Files: *
-Copyright: 2010-2016 Krisztián Kende <nemh@freemail.hu>
 License: GPL-3+
  This package is free software; you can redistribute it and/or modify it under
  the terms of the GNU General Public License as published by the Free Software
