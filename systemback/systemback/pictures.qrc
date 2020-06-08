@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pictures/back.png</file>
+        <file>pictures/dialogerror.png</file>
+        <file>pictures/dialoginfo.png</file>
+        <file>pictures/dialogquestion.png</file>
+        <file>pictures/dir.png</file>
+        <file>pictures/dirx.png</file>
+        <file>pictures/down.png</file>
+        <file>pictures/error.png</file>
+        <file>pictures/isdir.png</file>
+        <file>pictures/leftarrow.png</file>
+        <file>pictures/leftgreenarrow.png</file>
+        <file>pictures/logo.png</file>
+        <file>pictures/menuback.png</file>
+        <file>pictures/menunext.png</file>
+        <file>pictures/next.png</file>
+        <file>pictures/ok.png</file>
+        <file>pictures/passwordlogo.png</file>
+        <file>pictures/refresh.png</file>
+        <file>pictures/resize.png</file>
+        <file>pictures/rightarrow.png</file>
+        <file>pictures/systemback.png</file>
+        <file>pictures/up.png</file>
+    </qresource>
+</RCC>

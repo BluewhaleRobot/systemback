@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+if [ "$1" = install ] && grep ^enabled=true /etc/systemback/systemback.conf >/dev/null 2>&1
+then
+  echo "Disabling Systemback scheduler ..."
+  sed -i s/^enabled=true/enabled=false/g /etc/systemback/systemback.conf
+fi
+#DEBHELPER#

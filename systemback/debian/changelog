@@ -1,0 +1,53 @@
+systemback (1.8.402) release; urgency=low
+
+  * 1.8.402
+  * Fix Live creation when the '/snap' directory is missing
+
+  * 1.8.400
+  * Add support to installed Snap packages
+  * Remove support to old (version 1.5 and below) restore points
+  * Fix possible segmentation fault when checking directory mount status
+  * Fix translation files detection in DBGLEV=3 mode
+  * Fix source code compilation under Ubuntu 14.04
+  * Import new Romanian translations
+
+  * 1.8.300
+  * Fix the possible conflict with the APT when updating the package index files
+  * Import new EFI boot files from the Ubuntu 16.04 LTS
+  * Import new Czech, English (United Kingdom), Hungarian, Romanian and Spanish
+    translations
+
+  * 1.8.202
+  * Improve compatibility with apt 1.2
+  * Update EFI boot files
+  * Import new Spanish, Danish and Chinese (Simplified) translations
+
+  * 1.8.201
+  * Fix restore point creation when the storage dir path contains symbolic link
+  * Fix some directory date and time settings when creating restore points
+
+  * 1.8.200
+  * Fix line breaking when printing the mounted filesystems in DBGLEV=3 mode
+  * Fix error messages printing when upgrading the system
+  * Fix the GRUB menu height on the Live when the system contains xorg.conf
+    file(s)
+  * Detect and takes into account the configuration file(s) in the
+    /etc/X11/xorg.conf.d directory
+  * Update EFI boot files
+  * Import new Czech translations
+
+  * 1.8.102
+  * Fix possible segmentation fault when try to minimize the window with the
+    button
+
+  * 1.8.101
+  * Fix partition information reading on Ubuntu 16.04
+
+  * 1.8.100
+  * Fix incorrect symlink following when creating a new incremental restore
+    point (TeamViewer global.conf bug)
+  * Add a new debug level (DBGLEV=3) for more debug information
+  * Some minor fixes and improvements
+  * Import new Hungarian translations
+
+ -- Kende Krisztián <nemh@freemail.hu>  Mon, 16 May 2016 13:04:46 +0200

@@ -1,0 +1,49 @@
+.TH Systemback 1 "02.02.2016."
+
+.SH NAME
+Systemback - Simple system backup and restore application with extra
+.br
+             features
+
+.SH SYNOPSIS
+\fBsystemback
+
+.SH DESCRIPTION
+
+\fBSystemback\fR makes it easy to create backups of the system and the users
+configuration files. In case of problems you can easily restore the previous
+state of the system. There are extra features like system copying, system
+installation and Live system creation.
+
+.SH ENVIRONMENT
+.TP
+.B DBGLEV
+set the debug level for the stdout printed error messages
+.br
+0 - no error messages
+.br
+1 - print the error messages when a process has stopped because
+.br
+    an error occurred (default)
+.br
+2 - print all error messages
+.br
+3 - print all error messages with extra informations
+
+.SH FILES
+.SS /etc/systemback/systemback.conf
+configuration of GUI and CLI
+.br
+the possible variables and values are indicated in the file, all other changes
+are lost
+
+.SS /etc/systemback/systemback.excludes
+exclude hidden user files and directories from restore points
+.br
+exclude user data files and directories from Live system
+
+.SS /etc/systemback/systemback.includes
+include user data files and directories into the restore points
+
+.SH AUTHOR
+Krisztián Kende (nemh@freemail.hu)

@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+if [ -d /run ]
+then dir=/run
+else dir=/var/run
+fi
+
+if [ "$1" = remove ] && [ -e $dir/sbscheduler.lock ] && [ -s $dir/sbscheduler.pid ]
+then
+  echo "Stopping Systemback scheduler daemon ..."
+
+  if kill $(cat $dir/sbscheduler.pid) >/dev/null 2>&1
+  then rm $dir/sbscheduler.lock $dir/sbscheduler.pid
+  fi
+fi
+#DEBHELPER#

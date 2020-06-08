@@ -1,0 +1,177 @@
+Source: systemback
+Section: admin
+Priority: optional
+Maintainer: Kende Krisztián <nemh@freemail.hu>
+Build-Depends: debhelper (>= 9),
+               libblkid-dev,
+               libmount-dev,
+               libncursesw5-dev,
+               libparted0-dev,
+               qtbase5-dev,
+               qttools5-dev-tools
+Standards-Version: 3.9.7
+
+Package: systemback
+Architecture: amd64 i386
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         casper | live-boot,
+         dosfstools,
+         fonts-freefont-ttf | ttf-freefont,
+         genisoimage,
+         squashfs-tools,
+         syslinux,
+         syslinux (<< 3:5) | isolinux (>> 3:6),
+         syslinux (<< 3:5) | syslinux-common (>> 3:6),
+         syslinux (<< 3:5) | syslinux-utils (>> 3:6),
+         systemback-efiboot-amd64 (= ${source:Version}) [amd64],
+         systemback-scheduler (= ${binary:Version}),
+         upstart | sysvinit (>= 2.88) | systemd,
+         xterm,
+         zenity | kde-baseapps-bin | kdebase-bin
+Recommends: grub2-common,
+            grub-efi-amd64-bin,
+            grub-pc-bin,
+            lupin-casper [amd64],
+            systemback-cli (= ${binary:Version}),
+            systemback-locales (= ${source:Version}),
+            ttf-ubuntu-font-family
+Suggests: btrfs-tools,
+          jfsutils,
+          reiserfsprogs,
+          xfsprogs,
+          unionfs-fuse
+Conflicts: live-config,
+           live-config-systemd
+Breaks: systemback-gui-common (<< 1.0.0)
+Replaces: systemback-gui-common (<< 1.0.0)
+Description: Simple system backup and restore application with extra features
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contain a Qt5 graphical user interface for Systemback.
+
+Package: systemback-dbg
+Architecture: amd64 i386
+Section: debug
+Priority: extra
+Depends: ${misc:Depends},
+         systemback (= ${binary:Version})
+Description: Debug symbols for systemback
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contains the debug symbols for systemback.
+
+Package: systemback-cli
+Architecture: amd64 i386
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         upstart | sysvinit (>= 2.88) | systemd
+Recommends: grub2-common,
+            grub-efi-amd64-bin | grub-pc-bin
+Description: Systemback command line interface
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contain a command line interface for Systemback.
+
+Package: systemback-cli-dbg
+Architecture: amd64 i386
+Section: debug
+Priority: extra
+Depends: ${misc:Depends},
+         systemback-cli (= ${binary:Version})
+Description: Debug symbols for systemback-cli
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contains the debug symbols for systemback-cli.
+
+Package: systemback-scheduler
+Architecture: amd64 i386
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Breaks: systemback (<< 1.0.0)
+Replaces: systemback (<< 1.0.0)
+Description: Systemback scheduler daemon
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contain a scheduler daemon for Systemback.
+
+Package: systemback-scheduler-dbg
+Architecture: amd64 i386
+Section: debug
+Priority: extra
+Depends: ${misc:Depends},
+         systemback-scheduler (= ${binary:Version})
+Description: Debug symbols for systemback-scheduler
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contains the debug symbols for systemback-scheduler.
+
+Package: libsystemback
+Architecture: amd64 i386
+Section: libs
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         apt,
+         procps
+Description: Systemback shared library
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contain a shared library for Systemback binaries.
+
+Package: libsystemback-dbg
+Architecture: amd64 i386
+Section: debug
+Priority: extra
+Depends: ${misc:Depends},
+         libsystemback (= ${binary:Version})
+Description: Debug symbols for libsystemback
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contains the debug symbols for libsystemback.
+
+Package: systemback-efiboot-amd64
+Architecture: all
+Depends: ${misc:Depends},
+         xz-utils
+Description: Systemback boot files
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contais 64-bit boot files for UEFI-based machines.
+
+Package: systemback-locales
+Architecture: all
+Depends: ${misc:Depends}
+Description: Systemback localizations files
+ Systemback makes it easy to create backups of the system and the users
+ configuration files. In case of problems you can easily restore the previous
+ state of the system. There are extra features like system copying, system
+ installation and Live system creation.
+ .
+ This package contains localizations files for Systemback.

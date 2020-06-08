@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Systemback scheduler daemon
+Exec=/usr/lib/systemback/sbsustart scheduler gtk+
+Type=Application
+Icon=systemback
+Terminal=false
+NotShowIn=KDE;
+NoDisplay=true

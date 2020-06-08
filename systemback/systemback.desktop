@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Systemback
+Comment=Simple system backup and restore application with extra features
+Comment[hu]=Egyszerű rendszermentő és visszaállító alkalmazás további extra funkciókkal
+Exec=/usr/lib/systemback/sbsustart systemback gtk+
+Type=Application
+Icon=systemback
+Terminal=false
+NotShowIn=KDE;
+Categories=System;

@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+if [ -d /run ]
+then pfile=/run/sbscheduler.pid
+else pfile=/var/run/sbscheduler.pid
+fi
+
+if [ "$1" = upgrade ] && [ -s $pfile ]
+then printf restart > $pfile
+fi
+#DEBHELPER#

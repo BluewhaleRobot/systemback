@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+if [ "$1" = purge ] && [ -d /etc/systemback ]
+then
+  echo "Deleting Systemback configuration files ..."
+
+  if [ -f /etc/systemback/systemback.conf ]
+  then
+    sdir="$(grep ^storage_directory= /etc/systemback/systemback.conf | tail -c +19)"
+    rm /etc/systemback/systemback.conf
+
+    if [ "$sdir" ] && [ -d "$sdir"/Systemback ] && [ ! -d "$sdir"/Systemback/S01_* ] && [ ! -d "$sdir"/Systemback/H01_* ]
+    then
+      [ ! -e "$sdir"/Systemback/.sbschedule ] || rm "$sdir"/Systemback/.sbschedule
+      ! rm -d "$sdir"/Systemback 2>/dev/null || echo "Deleting empty Systemback storage directory ..."
+    fi
+  fi
+
+  rm -r /etc/systemback
+fi
+#DEBHELPER#
