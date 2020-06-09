@@ -1,7 +1,7 @@
 Source: systemback
 Section: admin
 Priority: optional
-Maintainer: Kende Krisztián <nemh@freemail.hu>
+Maintainer: Kende Krisztián <nemh@freemail.hu>, Zhang Weijia (randoms) <randoms@bwbot.org>
 Build-Depends: debhelper (>= 9),
                libblkid-dev,
                libmount-dev,
