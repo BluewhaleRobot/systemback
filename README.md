@@ -9,7 +9,8 @@ Systemback makes it easy to create backups of the system and the users configura
 ## Install
 
 ```bash
-sudo add-apt-repository ppa:weijiz/systemback
+sudo sh -c 'echo "deb [arch=amd64] http://mirrors.bwbot.org/ stable main" > /etc/apt/sources.list.d/systemback.list'
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key 7D9C279F
 sudo apt-get update
 sudo apt-get install systemback
 ```
