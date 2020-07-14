@@ -3248,7 +3248,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
             }
 
             bool skppd;
-            QSL excl{"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*", "*~_", "*~/*"};
+            QSL excl{"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*", "*~_", "*~/*", "*/.sbignore", ".sbignore"};
 
             for(uchar a(0) ; a < usrs.count() ; ++a)
             {
@@ -3305,6 +3305,14 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                                     case Islink:
                                     case Isfile:
                                         rmfile(trgi);
+                                    }
+                                    // if source dir contains .sbignore file, do not copy this dir
+                                    QStr srci(srcd[1] % '/' % item);
+                                    QDir dir(srci);
+                                    QFileInfoList list = dir.entryInfoList();
+                                    for(auto one_file : list) {
+                                        if (one_file.fileName() == ".sbignore")
+                                            goto nitem_1;
                                     }
 
                                     if(! crtdir(trgi)) return false;
@@ -3494,7 +3502,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                     if(item.contains("cryptdisks")) elst.append(cdir % '/' % item);
         }
 
-        QSL dlst{"/bin", "/boot", "/etc", "/lib", "/lib32", "/lib64", "/opt", "/sbin", "/selinux", "/srv", "/usr", "/var", "/snap"}, excl[]{{"_lost+found_", "_Systemback_"}, {"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*"}, {"_/etc/udev/rules.d*", "*-persistent-*"}};
+        QSL dlst{"/bin", "/boot", "/etc", "/lib", "/lib32", "/lib64", "/opt", "/sbin", "/selinux", "/srv", "/usr", "/var", "/snap"}, excl[]{{"_lost+found_", "_Systemback_"}, {"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*"}};
 
         for(uchar a(0) ; a < dlst.count() ; ++a)
         {
