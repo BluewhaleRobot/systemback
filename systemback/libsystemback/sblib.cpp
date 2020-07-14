@@ -3249,6 +3249,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
 
             bool skppd;
             QSL excl{"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*", "*~_", "*~/*", "*/.sbignore", ".sbignore"};
+            std::cout << "In copy file" << std::endl;
 
             for(uchar a(0) ; a < usrs.count() ; ++a)
             {
@@ -3299,6 +3300,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                                     break;
                                 }
                                 case Isdir:
+                                {
                                     switch(stype(trgi)) {
                                     case Isdir:
                                         goto nitem_1;
@@ -3311,9 +3313,12 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                                     QDir dir(srci);
                                     QFileInfoList list = dir.entryInfoList();
                                     for(auto one_file : list) {
-                                        if (one_file.fileName() == ".sbignore")
+                                        if (one_file.fileName() == ".sbignore"){
+                                            std::cout << "find ignore dir" << std::endl;
                                             goto nitem_1;
+                                        }
                                     }
+                                }
 
                                     if(! crtdir(trgi)) return false;
                                     break;

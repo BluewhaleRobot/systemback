@@ -29,6 +29,7 @@
 #include <sys/statvfs.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <iostream>
 
 #define fnln __attribute__((always_inline))
 #define cfgfile "/etc/systemback/systemback.conf"
