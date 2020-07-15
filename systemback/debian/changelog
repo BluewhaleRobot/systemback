@@ -1,4 +1,7 @@
-systemback (1.8.5) release; urgency=low
+systemback (1.8.6) release; urgency=low
+
+  * 1.8.6
+  * Add sbignore file, set include user data as default, set autoiso as default
 
   * 1.8.5
   * Add support for Ubuntu 20.04 and large iso
@@ -53,4 +56,4 @@ systemback (1.8.5) release; urgency=low
   * Some minor fixes and improvements
   * Import new Hungarian translations
 
- -- Zhang Weijia (randoms) <randoms@bwbot.org>  Mon, 8 Jun 2020 20:51:25 +0800
+ -- Zhang Weijia (randoms) <randoms@bwbot.org>  Wed, 15 Jul 2020 15:24:25 +0800
