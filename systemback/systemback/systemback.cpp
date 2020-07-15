@@ -7442,7 +7442,7 @@ void systemback::on_livenew_clicked()
     {
         ullong isize(sb::fsize(sb::sdir[2] % '/' % ifname % ".sblive"));
 
-        if(isize < 4294967295 && isize + 52428800 < sb::dfree(sb::sdir[2]))
+        if(isize + 52428800 < sb::dfree(sb::sdir[2]))
         {
             pset(20, " 4/3+1"),
             sb::Progress = -1;

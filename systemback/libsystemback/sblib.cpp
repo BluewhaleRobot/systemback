@@ -697,7 +697,7 @@ void sb::cfgread()
 
     if(autoiso == Empty)
     {
-        autoiso = False;
+        autoiso = True;
         if(! cfgupdt) cfgupdt = true;
     }
 
@@ -1523,8 +1523,27 @@ bool sb::rodir(QBA &ba, QUCL &ucl, cQStr &path, uchar hidden, cQSL &ilist, uchar
                     ucl.append(type), ba.append(npath % '\n');
                     break;
                 case Isdir:
+                {
+                    QStr subPath(path % "/" % iname);
+                    DIR *subDir;
+                    struct dirent *subEnt;
+                    if ((subDir = opendir (bstr(subPath))) != NULL) {
+                        bool ignoreFlag = false;
+                        while ((subEnt = readdir (subDir)) != NULL) {
+                            std::string subFileName(subEnt->d_name);
+                            if (subFileName == ".sbignore"){
+                                ignoreFlag = true;
+                                break;
+                            }   
+                        }
+                        closedir (subDir);
+                        if(ignoreFlag)
+                            break;
+                    }
                     rodir(ba.append(npath % '\n'), ucl << Isdir, path % '/' % iname, hidden == True ? ilist.isEmpty() ? uchar(False) : uchar(Include) : hidden, ilist, (oplen ? oplen : path.length()));
                 }
+                    
+            }
             }
         }
 
@@ -3249,7 +3268,6 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
 
             bool skppd;
             QSL excl{"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*", "*~_", "*~/*", "*/.sbignore", ".sbignore"};
-            std::cout << "In copy file" << std::endl;
 
             for(uchar a(0) ; a < usrs.count() ; ++a)
             {
@@ -3308,16 +3326,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                                     case Isfile:
                                         rmfile(trgi);
                                     }
-                                    // if source dir contains .sbignore file, do not copy this dir
-                                    QStr srci(srcd[1] % '/' % item);
-                                    QDir dir(srci);
-                                    QFileInfoList list = dir.entryInfoList();
-                                    for(auto one_file : list) {
-                                        if (one_file.fileName() == ".sbignore"){
-                                            std::cout << "find ignore dir" << std::endl;
-                                            goto nitem_1;
-                                        }
-                                    }
+
                                 }
 
                                     if(! crtdir(trgi)) return false;

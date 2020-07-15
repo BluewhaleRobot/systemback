@@ -21,3 +21,7 @@ ui_*
 systemback/systemback/systemback
 systemback/systemback-cli/systemback-cli
 systemback_1.8.5_amd64.ppa.upload
+.vscode
+systemback_1.8.5_amd64.buildinfo
+systemback/.qmake.stash
+systemback/systemback.pro.user
