@@ -800,7 +800,7 @@ void systemback::unitimer()
                 ui->windowposition->move(ui->windowpositiontext->x() + ui->windowpositiontext->width(), ui->windowposition->y());
                 for(QCB ckbx : QList<QCB>{ui->format, ui->keepfiles, ui->autorestoreoptions, ui->skipfstabrestore, ui->autorepairoptions, ui->skipfstabrepair, ui->userdatafilescopy, ui->userdatainclude, ui->silentmode, ui->languageoverride, ui->styleoverride, ui->alwaysontop, ui->incrementaldisable, ui->cachemptydisable, ui->usexzcompressor, ui->autoisocreate, ui->schedulerdisable}) ckbx->resize(fontMetrics().width(ckbx->text()) + sz[2], ckbx->height());
                 ui->usersettingscopy->resize(fontMetrics().width(tr("Transfer user configuration and data files")) + sz[2], ui->usersettingscopy->height()),
-                ui->usersettingscopy->setCheckState(Qt::PartiallyChecked),
+                ui->usersettingscopy->setCheckState(Qt::Checked),
                 ui->format->move((ui->partitionsettingspanel1->width() - ui->format->width()) / 2, ui->format->y());
                 for(QRB rbtn : QList<QRB>{ui->fullrestore, ui->systemrestore, ui->configurationfilesrestore, ui->systemrepair, ui->fullrepair, ui->grubrepair, ui->pointexclude, ui->liveexclude}) rbtn->resize(fontMetrics().width(rbtn->text()) + sz[2], rbtn->height());
                 ui->languages->move(ui->languageoverride->x() + ui->languageoverride->width() + sz[3], ui->languages->y()),
@@ -5617,7 +5617,7 @@ void systemback::on_installnext_clicked()
     }
     else if(! ui->usersettingscopy->isTristate())
         ui->usersettingscopy->setTristate(true),
-        ui->usersettingscopy->setCheckState(Qt::PartiallyChecked),
+        ui->usersettingscopy->setCheckState(Qt::Checked),
         ui->usersettingscopy->resize(fontMetrics().width(tr("Transfer user configuration and data files")) + ss(28), ui->usersettingscopy->height());
 
     if(ui->userdatafilescopy->isVisibleTo(ui->copypanel)) ui->userdatafilescopy->hide(),

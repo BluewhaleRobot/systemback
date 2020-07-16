@@ -3267,7 +3267,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
             }
 
             bool skppd;
-            QSL excl{"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*", "*~_", "*~/*", "*/.sbignore", ".sbignore"};
+            QSL excl{"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*", "*~_", "*~/*"};
 
             for(uchar a(0) ; a < usrs.count() ; ++a)
             {
@@ -3318,7 +3318,6 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                                     break;
                                 }
                                 case Isdir:
-                                {
                                     switch(stype(trgi)) {
                                     case Isdir:
                                         goto nitem_1;
@@ -3326,8 +3325,6 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                                     case Isfile:
                                         rmfile(trgi);
                                     }
-
-                                }
 
                                     if(! crtdir(trgi)) return false;
                                     break;
@@ -3516,7 +3513,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                     if(item.contains("cryptdisks")) elst.append(cdir % '/' % item);
         }
 
-        QSL dlst{"/bin", "/boot", "/etc", "/lib", "/lib32", "/lib64", "/opt", "/sbin", "/selinux", "/srv", "/usr", "/var", "/snap"}, excl[]{{"_lost+found_", "_Systemback_"}, {"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*"}};
+        QSL dlst{"/bin", "/boot", "/etc", "/lib", "/lib32", "/lib64", "/opt", "/sbin", "/selinux", "/srv", "/usr", "/var", "/snap"}, excl[]{{"_lost+found_", "_Systemback_"}, {"_lost+found_", "_lost+found/*", "*/lost+found_", "*/lost+found/*", "_Systemback_", "_Systemback/*", "*/Systemback_", "*/Systemback/*"}, {"_/etc/udev/rules.d*", "*-persistent-*"}};
 
         for(uchar a(0) ; a < dlst.count() ; ++a)
         {
