@@ -1972,6 +1972,8 @@ void systemback::repair()
 
 void systemback::systemcopy()
 {
+    // stop serivces
+    sb::exec("systemctl stop mongod");
     statustart(), pset(ui->userdatafilescopy->isVisibleTo(ui->copypanel) ? 8 : 9);
 
     auto err([this](ushort dlg = 0, cbstr &dev = nullptr) {
@@ -2576,6 +2578,7 @@ void systemback::systemcopy()
         for(cQStr &item : QDir("/.sbmountpoints").entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot)) rmdir(bstr("/.sbmountpoints/" % item));
         rmdir("/.sbmountpoints");
     }
+    sb::exec("systemctl start mongod");
 
     rmdir("/.sbsystemcopy"),
     sb::fssync();
@@ -7161,6 +7164,9 @@ void systemback::on_livenew_clicked()
 {
     statustart(), pset(17, " 1/3");
 
+    // stop services
+    sb::exec("systemctl stop mongod");
+
     auto err([this](ushort dlg = 0) {
             if(! (intrrpt || dlg == 327))
             {
@@ -7459,6 +7465,8 @@ void systemback::on_livenew_clicked()
             if(sb::exec("isohybrid \"" % sb::sdir[2] % "\"/" % ifname % ".iso") || ! cfmod(sb::sdir[2] % '/' % ifname % ".iso", 0666) || intrrpt) return err();
         }
     }
+    // restart service
+    sb::exec("systemctl start mongod");
 
     emptycache(),
     sb::remove(sb::sdir[2] % "/.sblivesystemcreate"),

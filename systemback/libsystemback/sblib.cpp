@@ -3567,7 +3567,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                         {
                             QStr pdi(cdir % '/' % item);
 
-                            if(! exclcheck(elst, pdi) && (macid.isEmpty() || ! item.contains(macid)) && (mthd < 3 || ! like(pdi, excl[2], All)) && (! srcdir.isEmpty() || exist(pdi)))
+                            if(! exclcheck(elst, pdi) && (macid.isEmpty() || ! item.contains(macid)) && (! srcdir.isEmpty() || exist(pdi)))
                             {
                                 QStr srci(srcd % '/' % item), trgi(trgd % '/' % item);
 
