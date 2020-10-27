@@ -2626,12 +2626,19 @@ bool sb::thrdsrestore(uchar mthd, cQStr &usr, cQStr &srcdir, cQStr &trgt, bool s
                 QStr dirs[]{srcdir % "/bin", srcdir % "/boot", srcdir % "/etc", srcdir % "/lib", srcdir % "/lib32", srcdir % "/lib64", srcdir % "/opt", srcdir % "/sbin", srcdir % "/selinux", srcdir % "/snap", srcdir % "/srv", srcdir % "/usr", srcdir % "/var"};
                 uint bbs[]{10000, 20000, 100000, 500000, 10000, 10000, 100000, 10000, 10000, 10000, 10000, 10000000, 1000000}, ibs[]{500, 1000, 10000, 20000, 500, 500, 5000, 1000, 500, 500, 500, 500000, 50000};
 
-                for(uchar a(0) ; a < 13 ; ++a)
-                    if(isdir(dirs[a]))
+                for(uchar a(0) ; a < 13 ; ++a){
+                    if(isdir(dirs[a]) && !islink(dirs[a]))
                     {
                         sysitms[a].reserve(bbs[a]), sysitmst[a].reserve(ibs[a]);
                         if(! rodir(sysitms[a], sysitmst[a], dirs[a])) return false;
                     }
+
+                    // if is link add itself
+                    if(islink(dirs[a])){
+                        sysitms[a].append("./");
+                        sysitmst[a].append(Islink);
+                    }
+                }
             }
 
             for(uchar a(0) ; a < 12 ; ++a) anum += sysitmst[a].count();
@@ -2723,7 +2730,7 @@ bool sb::thrdsrestore(uchar mthd, cQStr &usr, cQStr &srcdir, cQStr &trgt, bool s
 
                 if(isdir(srcd))
                 {
-                    if(isdir(trgd))
+                    if(!islink(srcd) && isdir(trgd))
                     {
                         QBAL sdlst;
                         if(! odir(sdlst, trgd)) return false;
@@ -2740,10 +2747,15 @@ bool sb::thrdsrestore(uchar mthd, cQStr &usr, cQStr &srcdir, cQStr &trgt, bool s
                             if(ThrdKill) return false;
                         }
                     }
-                    else
+                    else if (!islink(srcd))
                     {
                         if(exist(trgd)) rmfile(trgd);
                         if(! (crtdir(trgd) || fspchk())) return false;
+                    }
+
+                    if(islink(srcd)){
+                        // delete target exist symbol link
+                        if(exist(trgd)) rmfile(trgd);
                     }
 
                     if(! (cditmst = &sysitmst[a])->isEmpty())
@@ -2755,10 +2767,17 @@ bool sb::thrdsrestore(uchar mthd, cQStr &usr, cQStr &srcdir, cQStr &trgt, bool s
                         {
                             if(Progress < (cperc = (++cnum * 100 + 50) / anum)) Progress = cperc;
                             QStr item(in.readLine());
+                            if(item == "./"){
+                                item = "";
+                            }
 
                             if(! (like(item, excl[1]) || exclcheck(elst, cdir % '/' % item)))
                             {
                                 QStr srci(srcd % '/' % item), trgi(trgd % '/' % item);
+                                if(item == ""){
+                                    srci = srcd;
+                                    trgi = trgd;
+                                }
 
                                 switch(cditmst->at(lcnt)) {
                                 case Islink:
