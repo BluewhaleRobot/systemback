@@ -1283,18 +1283,19 @@ uchar sb::fcomp(cQStr &file1, cQStr &file2)
         : fstat[0].st_size == fstat[1].st_size && fstat[0].st_mtim.tv_sec == fstat[1].st_mtim.tv_sec ? fstat[0].st_mode == fstat[1].st_mode && fstat[0].st_uid == fstat[1].st_uid && fstat[0].st_gid == fstat[1].st_gid ? 2 : 1 : 0;
 }
 
+
+// 设置文件对应属性和源文件一致
 bool sb::cpertime(cQStr &srcitem, cQStr &newitem, bool skel)
 {
     auto err([&] { return error("\n " % tr("An error occurred while cloning the properties of the following item:") % "\n\n  " % srcitem % "\n\n " % tr("Target item:") % "\n\n  " % newitem % fdbg(srcitem, newitem), true); });
     struct stat istat[2];
-    if(stat(bstr(srcitem), &istat[0])) return err();
+    if(lstat(bstr(srcitem), &istat[0])) return err();
     bstr nitem(newitem);
-    if(stat(nitem, &istat[1])) return err();
+    if(lstat(nitem, &istat[1])) return err();
 
     if(skel)
     {
         struct stat ustat;
-        if(stat(bstr(left(newitem, instr(newitem, "/", 21) - 1)), &ustat)) return err();
         istat[0].st_uid = ustat.st_uid, istat[0].st_gid = ustat.st_gid;
     }
 
@@ -1302,8 +1303,9 @@ bool sb::cpertime(cQStr &srcitem, cQStr &newitem, bool skel)
     {
         if(chown(nitem, istat[0].st_uid, istat[0].st_gid) || ((istat[0].st_mode != (istat[0].st_mode & ~(S_ISUID | S_ISGID)) || istat[0].st_mode != istat[1].st_mode) && chmod(nitem, istat[0].st_mode))) return err();
     }
-    else if(istat[0].st_mode != istat[1].st_mode && chmod(nitem, istat[0].st_mode))
+    else if(istat[0].st_mode != istat[1].st_mode && chmod(nitem, istat[0].st_mode)){
         return err();
+    }
 
     if(istat[0].st_atim.tv_sec != istat[1].st_atim.tv_sec || istat[0].st_mtim.tv_sec != istat[1].st_mtim.tv_sec)
     {
@@ -1633,6 +1635,7 @@ bool sb::rodir(QBA &ba, cQStr &path, uchar oplen)
                 switch([&]() -> uchar {
                         switch(ent->d_type) {
                         case DT_LNK:
+                            return Islink;
                         case DT_REG:
                             return Isfile;
                         case DT_DIR:
@@ -1676,6 +1679,7 @@ bool sb::rodir(QUCL &ucl, cQStr &path, uchar oplen)
                 switch([&]() -> uchar {
                         switch(ent->d_type) {
                         case DT_LNK:
+                            return Islink;
                         case DT_REG:
                             return Isfile;
                         case DT_DIR:
@@ -3152,12 +3156,19 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
             QStr dirs[]{srcdir % "/bin", srcdir % "/boot", srcdir % "/etc", srcdir % "/lib", srcdir % "/lib32", srcdir % "/lib64", srcdir % "/opt", srcdir % "/sbin", srcdir % "/selinux", srcdir % "/srv", srcdir % "/usr", srcdir % "/var"};
             uint bbs[]{10000, 20000, 100000, 500000, 10000, 10000, 100000, 10000, 10000, 10000, 10000000, 1000000}, ibs[]{500, 1000, 10000, 20000, 500, 500, 5000, 1000, 500, 500, 500000, 50000};
 
-            for(uchar a(0) ; a < 12 ; ++a)
-                if(isdir(dirs[a]))
+            for(uchar a(0) ; a < 12 ; ++a){
+                if(isdir(dirs[a]) && !islink(dirs[a]))
                 {
                     sysitms[a].reserve(bbs[a]), sysitmst[a].reserve(ibs[a]);
                     if(! rodir(sysitms[a], sysitmst[a], dirs[a])) return false;
                 }
+
+                // if is link add itself
+                if(islink(dirs[a])){
+                    sysitms[a].append("./");
+                    sysitmst[a].append(Islink);
+                }
+            }
         }
 
         if(isdir(srcdir % "/snap"))
@@ -3522,7 +3533,7 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
 
             if(isdir(srcd))
             {
-                if(isdir(trgd))
+                if(!islink(srcd) && isdir(trgd))
                 {
                     QBAL sdlst;
                     if(! odir(sdlst, trgd)) return false;
@@ -3547,10 +3558,15 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                         if(ThrdKill) return false;
                     }
                 }
-                else
+                else if (!islink(srcd))
                 {
                     if(exist(trgd)) rmfile(trgd);
                     if(! crtdir(trgd)) return false;
+                }
+
+                if(islink(srcd)){
+                    // delete target exist symbol link
+                    if(exist(trgd)) rmfile(trgd);
                 }
 
                 if(! (cditmst = &sysitmst[a])->isEmpty())
@@ -3562,6 +3578,9 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                     {
                         if(Progress < (cperc = (++cnum * 100 + 50) / anum)) Progress = cperc;
                         QStr item(in.readLine());
+                        if(item == "./"){
+                            item = "";
+                        }
 
                         if(! like(item, excl[1]))
                         {
@@ -3570,6 +3589,10 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                             if(! exclcheck(elst, pdi) && (macid.isEmpty() || ! item.contains(macid)) && (! srcdir.isEmpty() || exist(pdi)))
                             {
                                 QStr srci(srcd % '/' % item), trgi(trgd % '/' % item);
+                                if(item == ""){
+                                    srci = srcd;
+                                    trgi = trgd;
+                                }
 
                                 switch(cditmst->at(lcnt)) {
                                 case Islink:
@@ -3652,7 +3675,6 @@ bool sb::thrdscopy(uchar mthd, cQStr &usr, cQStr &srcdir)
                     while(! in.atEnd())
                     {
                         QStr item(in.readLine());
-
                         if(cditmst->at(lcnt++) == Isdir)
                         {
                             QStr trgi(trgd % '/' % item);
