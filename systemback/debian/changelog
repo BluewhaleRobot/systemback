@@ -1,7 +1,7 @@
-systemback (1.8.6) release; urgency=low
+systemback (1.8.7) release; urgency=low
 
   * 1.8.7
-  * Fix symbol link missing after install generated system images
+  * Fix symbol link missing after install system images
 
   * 1.8.6
   * Add sbignore file, set include user data as default, set autoiso as default
@@ -59,4 +59,4 @@ systemback (1.8.6) release; urgency=low
   * Some minor fixes and improvements
   * Import new Hungarian translations
 
- -- Zhang Weijia (randoms) <randoms@bwbot.org>  Tue, 27 Oct 2020 15:24:25 +0800
+ -- Bluewhale Robot <randoms@bwbot.org>  Tue, 27 Oct 2020 15:24:25 +0800

@@ -10,7 +10,7 @@ Systemback makes it easy to create backups of the system and the users configura
 
 ```bash
 sudo sh -c 'echo "deb [arch=amd64] http://mirrors.bwbot.org/ stable main" > /etc/apt/sources.list.d/systemback.list'
-sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key 7D9C279F
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key 50B2C005A67B264F
 sudo apt-get update
 sudo apt-get install systemback
 ```
@@ -24,6 +24,14 @@ debuild
 ```
 
 ## Changelog
+
+1.8.7
+
+- Fix symbol link missing after install system images
+
+1.8.6
+
+- Add sbignore file, set include user data as default, set autoiso as default
 
 1.8.5
 

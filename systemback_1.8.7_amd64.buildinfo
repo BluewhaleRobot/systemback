@@ -5,46 +5,46 @@ Format: 1.0
 Source: systemback
 Binary: systemback systemback-dbg systemback-cli systemback-cli-dbg systemback-scheduler systemback-scheduler-dbg libsystemback libsystemback-dbg systemback-efiboot-amd64 systemback-locales
 Architecture: all amd64 source
-Version: 1.8.6
+Version: 1.8.7
 Checksums-Md5:
- 3206ada4371c0c8ac881ff094576d5e4 1896 systemback_1.8.6.dsc
- 5f1209a34bb8ffb76bb9219f54fc5989 1022196 libsystemback-dbg_1.8.6_amd64.deb
- 536f16d60b51d79e6379b37cd8eab952 100644 libsystemback_1.8.6_amd64.deb
- b22ec8064f906ecb940224bb17dcde86 469016 systemback-cli-dbg_1.8.6_amd64.deb
- c175aab4f22b570f5e65c28adccb29a3 28240 systemback-cli_1.8.6_amd64.deb
- dc5857edbf7817dfe853cd7a6bfac278 2819812 systemback-dbg_1.8.6_amd64.deb
- 2b9730d6b2d5e7222e525081fedb5ee1 932560 systemback-efiboot-amd64_1.8.6_all.deb
- 1da405fe20ebe70a877f29398c7e18a9 84116 systemback-locales_1.8.6_all.deb
- ec982a53201dc93a9d1f6d6a7126eeb4 608912 systemback-scheduler-dbg_1.8.6_amd64.deb
- 0db824172c2a75686dadda366fb92b7d 19736 systemback-scheduler_1.8.6_amd64.deb
- fbfb6bfc6e18fcf89efc85bcb4edd3de 867032 systemback_1.8.6_amd64.deb
+ 80fee8dfcfb4a1c9801bfd8bda7c577f 1896 systemback_1.8.7.dsc
+ 5721f54e2556631b0f76ab28deecd386 1022184 libsystemback-dbg_1.8.7_amd64.deb
+ 7254c07153242e55ce4f913d9642537d 100640 libsystemback_1.8.7_amd64.deb
+ 0e23b6a7df5e71078f49fd3d278dd6a1 469008 systemback-cli-dbg_1.8.7_amd64.deb
+ 7e2f26a7db024182c6bd4a00f88e2e60 28228 systemback-cli_1.8.7_amd64.deb
+ 0ee42b3ced5d9751f70de08cb8693625 2819800 systemback-dbg_1.8.7_amd64.deb
+ 6bfa036f053117cea6f182cf12d87010 932552 systemback-efiboot-amd64_1.8.7_all.deb
+ 8c6831a2a203108af42631b52db72e4b 84180 systemback-locales_1.8.7_all.deb
+ 798d65e2d5d03a47ccee953610130e20 608904 systemback-scheduler-dbg_1.8.7_amd64.deb
+ 50f3ca38938dba9025b902e15e5c141c 19732 systemback-scheduler_1.8.7_amd64.deb
+ 1a956af12c9e2a7d263220e09138257e 867016 systemback_1.8.7_amd64.deb
 Checksums-Sha1:
- a95bbca12da7f335e01d6af466646e0910897e2e 1896 systemback_1.8.6.dsc
- 97dde647e7a8116c316a8ae03c442ba9d0690984 1022196 libsystemback-dbg_1.8.6_amd64.deb
- cb9775f4b9cb5dd46fed14a932f93607f31c85fd 100644 libsystemback_1.8.6_amd64.deb
- 4d59f70e740f3d8f3917483dcd009641120ce6cd 469016 systemback-cli-dbg_1.8.6_amd64.deb
- eb3cf7f02e46ac152cc87649d9206234c9885a96 28240 systemback-cli_1.8.6_amd64.deb
- cb4d9574fc2bd9b9d8413ae7ebdabd596583e2ca 2819812 systemback-dbg_1.8.6_amd64.deb
- 443756e1fae12e8a63e6b2317ab6ec659263125f 932560 systemback-efiboot-amd64_1.8.6_all.deb
- 23b4e1d77c3bbf456fdf29490a9568108a14a26a 84116 systemback-locales_1.8.6_all.deb
- c2b8769cd7bfe6519a1e869ffd98b672947f5f57 608912 systemback-scheduler-dbg_1.8.6_amd64.deb
- 297fb8be2b41b351eee9bca5bb6e14dd76d81fd2 19736 systemback-scheduler_1.8.6_amd64.deb
- 3c97f1bb1a6d2150862356cdbba5f10e3cff99de 867032 systemback_1.8.6_amd64.deb
+ 2e591e5c4bf5c7654db45662e7d38640260876dc 1896 systemback_1.8.7.dsc
+ 06dc56656667e1e4d80bf1e9cd0cb8457c06f1e0 1022184 libsystemback-dbg_1.8.7_amd64.deb
+ e3c28565a32714bcb44122203129c7fa40df3c38 100640 libsystemback_1.8.7_amd64.deb
+ 77f18bc52232871d51a9aee6b0c62e75e93c4959 469008 systemback-cli-dbg_1.8.7_amd64.deb
+ fc6e975ccf1059e5532a13d12abb90d862541ead 28228 systemback-cli_1.8.7_amd64.deb
+ 3fdb21e547441515f6a596715fccdcd79631a0f6 2819800 systemback-dbg_1.8.7_amd64.deb
+ a1300699d7adb9ec88097327fdb083cf24b63438 932552 systemback-efiboot-amd64_1.8.7_all.deb
+ 84465dfe3ebb9b16079f6a74f49b211698848da3 84180 systemback-locales_1.8.7_all.deb
+ e8c5c030bb1d2033deb3eb6afc593e4a9cdb1cf3 608904 systemback-scheduler-dbg_1.8.7_amd64.deb
+ 708a67033b46b9b6050c0264bcf24fa91dde3c93 19732 systemback-scheduler_1.8.7_amd64.deb
+ cad184b911b409dac968bf74908d9e6198c3a865 867016 systemback_1.8.7_amd64.deb
 Checksums-Sha256:
- c82b195657c64681d13a6d82581abcc66b6a3cfb38b41daa3ab7b373d8f89ded 1896 systemback_1.8.6.dsc
- 8e1318471aeafd605dac2014a378fcbd1f64397302dcec6d4ed04521686ac332 1022196 libsystemback-dbg_1.8.6_amd64.deb
- 4c4b4435c8000065d8fb5bbf788acc5a7bf0b50e46e8fa709d9b3489a1c8c530 100644 libsystemback_1.8.6_amd64.deb
- 1b213d25cd3c0d39fe81dc5604e49a397985be3b02089784db72f19500ef8366 469016 systemback-cli-dbg_1.8.6_amd64.deb
- f938b5009c8dbbe2c32fafd6264e7570178ddf55251ee1e6682eb6734fce6795 28240 systemback-cli_1.8.6_amd64.deb
- 3575d4eef3fb24a391b47d0b580d8f0c0d4541842e44290ccd6b673aa7f1646f 2819812 systemback-dbg_1.8.6_amd64.deb
- bd1032d7e16a51c93010b55ef9ee3967d6bd99494382f6470da34eb708f08ca8 932560 systemback-efiboot-amd64_1.8.6_all.deb
- e42364bbf477d0030c5b9989d16b3a473bd7aa5d43b4dd3b202c1dfcfe021807 84116 systemback-locales_1.8.6_all.deb
- 76c56e605fc0ff7480b7741ad1220f87e101453a5f747e22f87843c447c1baa9 608912 systemback-scheduler-dbg_1.8.6_amd64.deb
- 6e0f2ccb6b88045b5d69031c71e8353a2d510a1deb355706c30ce967ab0ec3db 19736 systemback-scheduler_1.8.6_amd64.deb
- c21c49cc75ddb5a716d4c1df8236546647f6ded6d64ae2e039f5f8302eb8ea21 867032 systemback_1.8.6_amd64.deb
+ 7e8521b22bdc63624345b6e1e40ae6e291e48d5293666a3061e324516e6711e9 1896 systemback_1.8.7.dsc
+ e69710dc34d626ae99484e72739692ac32a41eb4d0548f9ccc4629857dfbeecc 1022184 libsystemback-dbg_1.8.7_amd64.deb
+ 5c40113b5e3745b70313f22e202b99ac60fa56999b6ab8497aa8eef6efc72ae7 100640 libsystemback_1.8.7_amd64.deb
+ b320419621cebbf9beba70befe0264c8825c5ba356f8776dbd74cd3630e1177f 469008 systemback-cli-dbg_1.8.7_amd64.deb
+ 067c8fc01ed485aebb7870addf03bbd34c1e8ce1591f759bc0aee3d3174ece6d 28228 systemback-cli_1.8.7_amd64.deb
+ 628588edb93a8fbfa785ef934f728cc4c8d6681d237efc5a17bb6b68f63ee4a0 2819800 systemback-dbg_1.8.7_amd64.deb
+ cc40aab0ee7e576a26a00fe799e7bdca6e43fb8e77044f8b75bbeb0644623e06 932552 systemback-efiboot-amd64_1.8.7_all.deb
+ 634ed5be7653f8d7aa3d9f436f20061615da363e0155c5f4d08464b67a8d6be2 84180 systemback-locales_1.8.7_all.deb
+ fc80e2ae86027a5d6e35cb2920d8cafb72bdbad1b475b501ef17107199be21bf 608904 systemback-scheduler-dbg_1.8.7_amd64.deb
+ c51414f616d32df55765ab3b622f585d44e5152713801b6124bd727b29fead9c 19732 systemback-scheduler_1.8.7_amd64.deb
+ 4a3b0cc9d6732b4051afc064304e07f553accd4497b7f4ca217eb142269003e2 867016 systemback_1.8.7_amd64.deb
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Wed, 28 Oct 2020 09:49:27 +0800
+Build-Date: Wed, 28 Oct 2020 09:57:18 +0800
 Build-Tainted-By:
  merged-usr-via-symlinks
  usr-local-has-includes
@@ -411,12 +411,12 @@ Environment:
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFGBAEBCgAwFiEEnAKTfFkmZUvzfok6ULLABaZ7Jk8FAl+YzjYSHHJhbmRvbXNA
-Yndib3Qub3JnAAoJEFCywAWmeyZP74wH+wYxsvjzeK4A1n1CgUEEyIkl1CMZL6Ge
-KKnzEZGkX5/HqjogF9oV1KGmz+JaZEZa9m64hpgy8i7WpLae6QHEinNgdCWSkpcp
-KNyopFvfRbw4DHyvCfaix+HMdVChCnNgTp+eBEnuFHh/Or2Sg+ab49MnxV5m9TNh
-0Qnra1I7cvILGD6xk3duAeyarzTXJgACGWa8UHzqK/VDuM1uXuQZN0xwz160Dohh
-lKUuVa3xPGb68Pa8ifpUWWZ1pAkqRNwTN/vGiasiJWnUcw5Ol9p4zI/v7l4ZYN2K
-Txt+qXppVUQP8vjTBtfaTOwj4hEGyblI/jXBK7nsR0TggcstvssvFa0=
-=X5wL
+iQFGBAEBCgAwFiEEnAKTfFkmZUvzfok6ULLABaZ7Jk8FAl+Y0AMSHHJhbmRvbXNA
+Yndib3Qub3JnAAoJEFCywAWmeyZPSNQH/i1u64jhB8sSJzkmZ+xjakvu5mfnPDhh
+FDXDvu9hBRiBQWD3GWcJ2Eza+uRLvh+8EJ4WVvNfqT5N21lahTzUDAzlr6C066SH
+IIF4PXfYWxzbFl0GifM2jswMNjCyxR88kqx27hQ/xvmOpMAevLpUIh7d2Be4hYkP
+ISJGllJsPy4XoXXIEyZ5l2rof85WOpZ6AFt17KLAfxmTKREAJWDTpLYb5mQT3PoG
+53/6UutaWZt5uN1kRxa34qG9KfXe/BZ9gE1dUQz+nW7TkyQkMvydImri/bj/lqb7
+tsbP0afJ6EQ0GVbaV93gj/3E0+Twuvxj1NttdKYGlJL7uC7ADucsx48=
+=QKwD
 -----END PGP SIGNATURE-----
