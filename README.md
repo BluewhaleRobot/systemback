@@ -25,6 +25,11 @@ debuild
 
 ## Changelog
 
+1.8.8
+
+- Merge from https://github.com/fconidi/Systemback_source-1.9.4
+- Add support for NVMe
+
 1.8.7
 
 - Fix symbol link missing after install system images

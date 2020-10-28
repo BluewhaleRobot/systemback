@@ -942,7 +942,7 @@ QStr sb::gdetect(cQStr rdir)
 {
     QStr mnts(fload("/proc/self/mounts", true));
     QTS in(&mnts, QIODevice::ReadOnly);
-    QSL incl[]{{"* " % rdir % " *", "* " % rdir % (rdir.endsWith('/') ? nullptr : "/") % "boot *"}, {"_/dev/sd*", "_/dev/hd*", "_/dev/vd*"}};
+    QSL incl[]{{"* " % rdir % " *", "* " % rdir % (rdir.endsWith('/') ? nullptr : "/") % "boot *"}, {"_/dev/sd*", "_/dev/hd*", "_/dev/nvme0*", "_/dev/vd*"}};
 
     while(! in.atEnd())
     {
@@ -1296,6 +1296,7 @@ bool sb::cpertime(cQStr &srcitem, cQStr &newitem, bool skel)
     if(skel)
     {
         struct stat ustat;
+        if(lstat(bstr(left(newitem, instr(newitem, "/", 21) - 1)), &ustat)) return err();
         istat[0].st_uid = ustat.st_uid, istat[0].st_gid = ustat.st_gid;
     }
 
@@ -1839,7 +1840,7 @@ void sb::run()
     case Readprttns:
     {
         ThrdSlst->reserve(25);
-        QSL dlst{"_/dev/sd*", "_/dev/hd*", "_/dev/vd*", "_/dev/mmcblk*"};
+        QSL dlst{"_/dev/sd*", "_/dev/hd*", "_/dev/vd*", "_/dev/nvme0*", "_/dev/mmcblk*"};
 
         for(cQStr &spath : QDir("/dev").entryList(QDir::System))
         {
@@ -1943,7 +1944,7 @@ void sb::run()
     {
         ThrdSlst->reserve(10);
         QBA fstab(fload("/etc/fstab"));
-        QSL dlst[]{{"_usb-*", "_mmc-*"}, {"_/dev/sd*", "_/dev/mmcblk*"}};
+        QSL dlst[]{{"_usb-*", "_mmc-*"}, {"_/dev/sd*", "_/dev/nvme0*", "_/dev/mmcblk*"}};
 
         for(cQStr &item : QDir("/dev/disk/by-id").entryList(QDir::Files))
         {
