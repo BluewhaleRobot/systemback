@@ -19,7 +19,7 @@ sudo apt-get install systemback
 
 ```bash
 git clone https://github.com/BluewhaleRobot/systemback
-cd systemback/sytemback
+cd systemback/systemback
 debuild
 ```
 
