@@ -2647,7 +2647,7 @@ void systemback::livewrite()
         }
         else
         {
-            if(! (sb::mkpart(ldev, 1048576, 104857600) && sb::mkpart(ldev)) || intrrpt) return err(338);
+            if(! (sb::mkpart(ldev, 1048576, 144857600) && sb::mkpart(ldev)) || intrrpt) return err(338); //140MB
             sb::delay(100);
             if(sb::exec("mkfs.ext2 -FL SBROOT " % ldev % (ismmc ? "p" : nullptr) % '2') || intrrpt) return err(338);
             lrdir = "sbroot";
