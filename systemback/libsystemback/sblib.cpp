@@ -922,10 +922,12 @@ uchar sb::exec(cQSL &cmds)
 bool sb::mcheck(cQStr &item, cQStr &mnts)
 {
     cQStr &itm(item.contains(' ') ? bstr(item).rplc(" ", "\\040") : item);
+    bool ismmc(item.contains("mmc"));
+    bool isnvme(item.contains("nvme"));
 
     if(! itm.startsWith("/dev/"))
         return itm.endsWith('/') && itm.length() > 1 ? like(mnts, {"* " % left(itm, -1) % " *", "* " % itm % "*"}) : mnts.contains(' ' % itm % ' ');
-    else if(QStr('\n' % mnts).contains('\n' % itm % (itm.length() > (item.contains("mmc") ? 12 : 8) ? " " : nullptr)))
+    else if(QStr('\n' % mnts).contains('\n' % itm % (itm.length() > ((ismmc || isnvme) ? 12 : 8) ? " " : nullptr)))
         return true;
     else
     {
@@ -947,12 +949,14 @@ QStr sb::gdetect(cQStr rdir)
     while(! in.atEnd())
     {
         QStr cline(in.readLine());
+        bool ismmc(cline.contains("mmc"));
+        bool isnvme(cline.contains("nvme"));
 
         if(like(cline, incl[0]))
         {
             if(like(cline, incl[1]))
                 return left(cline, 8);
-            else if(cline.startsWith("/dev/mmcblk"))
+            else if(ismmc || isnvme)
                 return left(cline, 12);
             else if(cline.startsWith("/dev/disk/by-uuid"))
             {
@@ -961,7 +965,7 @@ QStr sb::gdetect(cQStr rdir)
                 if(islink("/dev/disk/by-uuid/" % uid))
                 {
                     QStr dev(QFile("/dev/disk/by-uuid/" % uid).readLink());
-                    return left(dev, dev.contains("mmc") ? 12 : 8);
+                    return left(dev, (dev.contains("mmc") || dev.contains("nvme"))  ? 12 : 8);
                 }
             }
 
@@ -1149,7 +1153,7 @@ bool sb::srestore(uchar mthd, cQStr &usr, cQStr &srcdir, cQStr &trgt, bool sfsta
 bool sb::mkpart(cQStr &dev, ullong start, ullong len, uchar type)
 {
     auto err([&dev] { return error("\n " % tr("An error occurred while creating a new partition on the following device:") % "\n\n  " % dev % fdbg(dev), true); });
-    if(dev.length() > (dev.contains("mmc") ? 12 : 8) || stype(dev) != Isblock) return err();
+    if(dev.length() > ((dev.contains("mmc") || dev.contains("nvme")) ? 12 : 8) || stype(dev) != Isblock) return err();
     ThrdType = Mkpart,
     ThrdStr[0] = dev,
     ThrdLng[0] = start,
@@ -1194,8 +1198,11 @@ bool sb::crtrpoint(cQStr &pname)
 bool sb::setpflag(cQStr &part, cQStr &flags)
 {
     auto err([&] { return error("\n " % tr("An error occurred while setting one or more flags on the following partition:") % "\n\n  " % part % "\n\n " % tr("Flag(s):") % ' ' % flags % fdbg(part), true); });
-    { bool ismmc(part.contains("mmc"));
-    if(part.length() < (ismmc ? 14 : 9) || stype(part) != Isblock || stype(left(part, (ismmc ? 12 : 8))) != Isblock) return err(); }
+    { 
+        bool ismmc(part.contains("mmc"));
+        bool isnvme(part.contains("nvme"));
+        if(part.length() < ((ismmc || isnvme) ? 14 : 9) || stype(part) != Isblock || stype(left(part, ((ismmc || isnvme) ? 12 : 8))) != Isblock) return err(); 
+    }
     ThrdType = Setpflag,
     ThrdStr[0] = part,
     ThrdStr[1] = flags,
@@ -1214,7 +1221,7 @@ bool sb::lvprpr(bool iudata)
 bool sb::mkptable(cQStr &dev, cQStr &type)
 {
     auto err([&dev] { return error("\n " % tr("An error occurred while creating the partition table on the following device:") % "\n\n  " % dev % fdbg(dev), true); });
-    if(dev.length() > (dev.contains("mmc") ? 12 : 8) || stype(dev) != Isblock) return err();
+    if(dev.length() > ((dev.contains("mmc") || dev.contains("nvme")) ? 12 : 8) || stype(dev) != Isblock) return err();
     ThrdType = Mkptable,
     ThrdStr[0] = dev,
     ThrdStr[1] = type,
@@ -2018,7 +2025,7 @@ void sb::run()
     }
     case Setpflag:
     {
-        PedDevice *dev(ped_device_get(bstr(left(ThrdStr[0], (ThrdStr[0].contains("mmc") ? 12 : 8)))));
+        PedDevice *dev(ped_device_get(bstr(left(ThrdStr[0], ((ThrdStr[0].contains("mmc") || ThrdStr[0].contains("nvme")) ? 12 : 8)))));
         PedDisk *dsk(ped_disk_new(dev));
         PedPartition *prt(nullptr);
         if(ThrdRslt) ThrdRslt = false;
@@ -2072,9 +2079,10 @@ void sb::run()
     case Delpart:
     {
         bool ismmc(ThrdStr[0].contains("mmc"));
-        PedDevice *dev(ped_device_get(bstr(left(ThrdStr[0], ismmc ? 12 : 8))));
+        bool isnvme(ThrdStr[0].contains("nvme"));
+        PedDevice *dev(ped_device_get(bstr(left(ThrdStr[0], (ismmc || isnvme) ? 12 : 8))));
         PedDisk *dsk(ped_disk_new(dev));
-        if(ped_disk_delete_partition(dsk, ped_disk_get_partition(dsk, right(ThrdStr[0], -(ismmc ? 13 : 8)).toUShort()))) ped_disk_commit_to_dev(dsk), ped_disk_commit_to_os(dsk);
+        if(ped_disk_delete_partition(dsk, ped_disk_get_partition(dsk, right(ThrdStr[0], -((ismmc || isnvme) ? 13 : 8)).toUShort()))) ped_disk_commit_to_dev(dsk), ped_disk_commit_to_os(dsk);
         return ped_disk_destroy(dsk), ped_device_destroy(dev);
     }
     case Crtrpoint:

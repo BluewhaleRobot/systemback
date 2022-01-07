@@ -2591,8 +2591,9 @@ void systemback::livewrite()
     statustart(), pset(10);
     QStr ldev(ui->livedevices->item(ui->livedevices->currentRow(), 0)->text());
     bool ismmc(ldev.contains("mmc"));
+    bool isnvme(ldev.contains("nvme"));
 
-    auto err([&, ismmc](ushort dlg = 336) {
+    auto err([&, ismmc, isnvme](ushort dlg = 336) {
             if(sb::isdir("/.sblivesystemwrite"))
             {
                 if(sb::mcheck("/.sblivesystemwrite/sblive")) sb::umount("/.sblivesystemwrite/sblive");
@@ -2610,7 +2611,7 @@ void systemback::livewrite()
             if(intrrpt)
                 intrrpt = false;
             else
-                dialogopen(dlg, sb::like(dlg, {337, 338}) ? bstr(ldev % (ismmc ? "p" : nullptr) % '1') : nullptr);
+                dialogopen(dlg, sb::like(dlg, {337, 338}) ? bstr(ldev % ((ismmc || isnvme)? "p" : nullptr) % '1') : nullptr);
         });
 
     if(! sb::exist(ldev))
@@ -2621,7 +2622,7 @@ void systemback::livewrite()
         {
             QStr item("/dev/" % sitem);
 
-            if(item.length() > (ismmc ? 12 : 8) && item.startsWith(ldev))
+            if(item.length() > ((ismmc || isnvme) ? 12 : 8) && item.startsWith(ldev))
                 while(sb::mcheck(item)) sb::umount(item);
 
             if(intrrpt) return err();
@@ -2649,24 +2650,24 @@ void systemback::livewrite()
         {
             if(! (sb::mkpart(ldev, 1048576, 104857600) && sb::mkpart(ldev)) || intrrpt) return err(338);
             sb::delay(100);
-            if(sb::exec("mkfs.ext2 -FL SBROOT " % ldev % (ismmc ? "p" : nullptr) % '2') || intrrpt) return err(338);
+            if(sb::exec("mkfs.ext2 -FL SBROOT " % ldev % ((ismmc || isnvme)? "p" : nullptr) % '2') || intrrpt) return err(338);
             lrdir = "sbroot";
         }
 
-        if(sb::exec("mkfs.vfat -F 32 -n SBLIVE " % ldev % (ismmc ? "p" : nullptr) % '1') || intrrpt) return err(338);
+        if(sb::exec("mkfs.vfat -F 32 -n SBLIVE " % ldev % ((ismmc || isnvme) ? "p" : nullptr) % '1') || intrrpt) return err(338);
 
-        if(sb::exec("dd if=/usr/lib/syslinux/" % QStr(sb::isfile("/usr/lib/syslinux/mbr.bin") ? nullptr : "mbr/") % "mbr.bin of=" % ldev % " conv=notrunc bs=440 count=1") || ! sb::setpflag(ldev % (ismmc ? "p" : nullptr) % '1', "boot lba")
+        if(sb::exec("dd if=/usr/lib/syslinux/" % QStr(sb::isfile("/usr/lib/syslinux/mbr.bin") ? nullptr : "mbr/") % "mbr.bin of=" % ldev % " conv=notrunc bs=440 count=1") || ! sb::setpflag(ldev % ((ismmc || isnvme) ? "p" : nullptr) % '1', "boot lba")
             || intrrpt || (sb::exist("/.sblivesystemwrite") && (((sb::mcheck("/.sblivesystemwrite/sblive") && ! sb::umount("/.sblivesystemwrite/sblive")) || (sb::mcheck("/.sblivesystemwrite/sbroot") && ! sb::umount("/.sblivesystemwrite/sbroot"))) || ! sb::remove("/.sblivesystemwrite")))
             || intrrpt || ! (sb::crtdir("/.sblivesystemwrite") && sb::crtdir("/.sblivesystemwrite/sblive"))
             || intrrpt) return err();
 
         sb::delay(100);
-        if(! sb::mount(ldev % (ismmc ? "p" : nullptr) % '1', "/.sblivesystemwrite/sblive") || intrrpt) return err(337);
+        if(! sb::mount(ldev % ((ismmc || isnvme) ? "p" : nullptr) % '1', "/.sblivesystemwrite/sblive") || intrrpt) return err(337);
 
         if(lrdir == "sbroot")
         {
             if(! sb::crtdir("/.sblivesystemwrite/sbroot")) return err();
-            if(! sb::mount(ldev % (ismmc ? "p" : nullptr) % '2', "/.sblivesystemwrite/sbroot") || intrrpt) return err(337);
+            if(! sb::mount(ldev % ((ismmc || isnvme) ? "p" : nullptr) % '2', "/.sblivesystemwrite/sbroot") || intrrpt) return err(337);
         }
 
         if(sb::dfree("/.sblivesystemwrite/" % lrdir) < isize + 52428800) return err(322);
@@ -2681,7 +2682,7 @@ void systemback::livewrite()
         return err(323);
 
     pset(1);
-    if(sb::exec("syslinux -ifd syslinux " % ldev % (ismmc ? "p" : nullptr) % '1')) return err();
+    if(sb::exec("syslinux -ifd syslinux " % ldev % ((ismmc || isnvme) ? "p" : nullptr) % '1')) return err();
     sb::fssync();
     if(sb::ecache) sb::crtfile("/proc/sys/vm/drop_caches", "3");
     sb::umount("/.sblivesystemwrite/sblive"),
@@ -5698,7 +5699,7 @@ void systemback::on_partitionsettings_currentItemChanged(QTblWI *crrnt, QTblWI *
             bool mntd(false), mntcheck(false);
             QStr dev(ui->partitionsettings->item(crrnt->row(), 0)->text());
 
-            for(ushort a(crrnt->row() + 1) ; a < ui->partitionsettings->rowCount() && ((type == sb::Extended && ui->partitionsettings->item(a, 0)->text().startsWith(sb::left(dev, dev.contains("mmc") ? 12 : 8)) && sb::like(ui->partitionsettings->item(a, 8)->text().toInt(), {sb::Logical, sb::Emptyspace})) || (type != sb::Extended && ui->partitionsettings->item(a, 0)->text().startsWith(dev))) ; ++a)
+            for(ushort a(crrnt->row() + 1) ; a < ui->partitionsettings->rowCount() && ((type == sb::Extended && ui->partitionsettings->item(a, 0)->text().startsWith(sb::left(dev, (dev.contains("mmc") || dev.contains("nvme")) ? 12 : 8)) && sb::like(ui->partitionsettings->item(a, 8)->text().toInt(), {sb::Logical, sb::Emptyspace})) || (type != sb::Extended && ui->partitionsettings->item(a, 0)->text().startsWith(dev))) ; ++a)
             {
                 ui->partitionsettings->item(a, 0)->setBackground(QPalette().highlight()),
                 ui->partitionsettings->item(a, 0)->setForeground(QPalette().highlightedText());
@@ -5754,7 +5755,9 @@ void systemback::on_partitionsettings_currentItemChanged(QTblWI *crrnt, QTblWI *
         }
         case sb::Freespace:
         {
-            QStr dev(sb::left(ui->partitionsettings->item(ui->partitionsettings->currentRow(), 0)->text(), ui->partitionsettings->item(ui->partitionsettings->currentRow(), 0)->text().contains("mmc") ? 12 : 8));
+            QStr devName = ui->partitionsettings->item(ui->partitionsettings->currentRow(), 0)->text();
+            QStr dev(
+                sb::left(devName, (devName.contains("mmc") || devName.contains("nvme")) ? 12 : 8));
 
             for(ushort a(0) ; a < ui->partitionsettings->rowCount() && pcnt < 4 ; ++a)
                 if(ui->partitionsettings->item(a, 0)->text().startsWith(dev))
@@ -7528,7 +7531,9 @@ void systemback::on_partitiondelete_clicked()
 void systemback::on_newpartition_clicked()
 {
     busy(), ui->copycover->show();
-    QStr dev(sb::left(ui->partitionsettings->item(ui->partitionsettings->currentRow(), 0)->text(), (ui->partitionsettings->item(ui->partitionsettings->currentRow(), 0)->text().contains("mmc") ? 12 : 8)));
+    QStr devName = ui->partitionsettings->item(ui->partitionsettings->currentRow(), 0)->text();
+    QStr dev(
+        sb::left(devName, (devName.contains("mmc") || devName.contains("nvme")) ? 12 : 8));
     bool msize(ui->partitionsize->value() == ui->partitionsize->maximum());
     ullong start(ui->partitionsettings->item(ui->partitionsettings->currentRow(), 9)->text().toULongLong()), len(msize ? ui->partitionsettings->item(ui->partitionsettings->currentRow(), 10)->text().toULongLong() : ullong(ui->partitionsize->value()) * 1048576);
     uchar type;
