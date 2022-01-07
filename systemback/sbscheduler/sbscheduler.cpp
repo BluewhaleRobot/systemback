@@ -135,7 +135,7 @@ void scheduler::newrpnt()
 
         if(! QFile::rename(sb::sdir[1] % "/.S00_" % dtime, sb::sdir[1] % "/S01_" % dtime)) return;
     }
-    else if(sb::dfree(sb::sdir[1]) < 104857600)
+    else if(sb::dfree(sb::sdir[1]) < 204857600)
         sb::remove(sb::sdir[1] % "/.S00_" % dtime);
     else
         return;

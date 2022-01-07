@@ -82,7 +82,7 @@ void systemback::main()
                                                 sbtxt = bstr("Systemback " % tr("basic restore UI")), blgn = COLS / 2 - 6 - tr("basic restore UI").length() / 2;
                                                 if(! crtrpt) return clistart();
                                                 sb::pupgrade();
-                                                return newrpnt() ? 0 : sb::dfree(sb::sdir[1]) < 104857600 ? 12 : 13;
+                                                return newrpnt() ? 0 : sb::dfree(sb::sdir[1]) < 204857600 ? 12 : 13;
                                             }());
 
                                     endwin();
@@ -227,7 +227,7 @@ uchar systemback::clistart()
             break;
         case 'g':
         case 'G':
-            if(! newrpnt()) return sb::dfree(sb::sdir[1]) < 104857600 ? 12 : 13;
+            if(! newrpnt()) return sb::dfree(sb::sdir[1]) < 204857600 ? 12 : 13;
             clear();
             return clistart();
         case 'q':

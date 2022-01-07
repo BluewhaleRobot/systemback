@@ -1978,7 +1978,7 @@ void systemback::systemcopy()
 
     auto err([this](ushort dlg = 0, cbstr &dev = nullptr) {
             if(! (intrrpt || (dlg && sb::like(dlg, {308, 314, 315, 317, 330, 331, 332, 333})))) dlg = [this] {
-                    if(sb::dfree("/.sbsystemcopy") > 104857600 && (! sb::isdir("/.sbsystemcopy/home") || sb::dfree("/.sbsystemcopy/home") > 104857600) && (! sb::isdir("/.sbsystemcopy/boot") || sb::dfree("/.sbsystemcopy/boot") > 52428800) && (! sb::isdir("/.sbsystemcopy/boot/efi") || sb::dfree("/.sbsystemcopy/boot/efi") > 10485760))
+                    if(sb::dfree("/.sbsystemcopy") > 204857600 && (! sb::isdir("/.sbsystemcopy/home") || sb::dfree("/.sbsystemcopy/home") > 204857600) && (! sb::isdir("/.sbsystemcopy/boot") || sb::dfree("/.sbsystemcopy/boot") > 52428800) && (! sb::isdir("/.sbsystemcopy/boot/efi") || sb::dfree("/.sbsystemcopy/boot/efi") > 10485760))
                     {
                         irblck = true;
                         return ui->userdatafilescopy->isVisibleTo(ui->copypanel) ? 320 : 321;
@@ -2648,7 +2648,7 @@ void systemback::livewrite()
         }
         else
         {
-            if(! (sb::mkpart(ldev, 1048576, 104857600) && sb::mkpart(ldev)) || intrrpt) return err(338);
+            if(! (sb::mkpart(ldev, 1048576, 204857600) && sb::mkpart(ldev)) || intrrpt) return err(338);
             sb::delay(100);
             if(sb::exec("mkfs.ext2 -FL SBROOT " % ldev % ((ismmc || isnvme)? "p" : nullptr) % '2') || intrrpt) return err(338);
             lrdir = "sbroot";
@@ -5452,7 +5452,7 @@ void systemback::on_livelist_currentItemChanged(QLWI *crrnt)
             if(! ui->livedelete->isEnabled()) ui->livedelete->setEnabled(true);
             ullong isize(sb::fsize(sb::sdir[2] % '/' % sb::left(crrnt->text(), sb::instr(crrnt->text(), " ") - 1) % ".sblive"));
 
-            if(isize && isize * 2 + 104857600 < sb::dfree(sb::sdir[2]) && ! sb::exist(sb::sdir[2] % '/' % sb::left(crrnt->text(), sb::instr(crrnt->text(), " ") - 1) % ".iso"))
+            if(isize && isize * 2 + 204857600 < sb::dfree(sb::sdir[2]) && ! sb::exist(sb::sdir[2] % '/' % sb::left(crrnt->text(), sb::instr(crrnt->text(), " ") - 1) % ".iso"))
             {
                 if(! ui->liveconvert->isEnabled()) ui->liveconvert->setEnabled(true);
             }
@@ -6938,7 +6938,7 @@ void systemback::on_userdatainclude_clicked(bool chckd)
         ullong hfree(sb::dfree("/home"));
         QFile file("/etc/passwd");
 
-        if(hfree > 104857600 && sb::dfree("/root") > 104857600 && sb::fopen(file))
+        if(hfree > 204857600 && sb::dfree("/root") > 204857600 && sb::fopen(file))
             while(! file.atEnd())
             {
                 QStr usr(file.readLine().trimmed());
@@ -7075,7 +7075,7 @@ void systemback::on_newrestorepoint_clicked()
                 intrrpt = false;
             else
             {
-                dialogopen(sb::dfree(sb::sdir[1]) < 104857600 ? 305 : 319);
+                dialogopen(sb::dfree(sb::sdir[1]) < 204857600 ? 305 : 319);
                 if(! sstart) pntupgrade();
             }
         });
@@ -7173,7 +7173,7 @@ void systemback::on_livenew_clicked()
     auto err([this](ushort dlg = 0) {
             if(! (intrrpt || dlg == 327))
             {
-                if(sb::dfree(sb::sdir[2]) < 104857600 || (sb::isdir("/home/.sbuserdata") && sb::dfree("/home") < 104857600))
+                if(sb::dfree(sb::sdir[2]) < 204857600 || (sb::isdir("/home/.sbuserdata") && sb::dfree("/home") < 204857600))
                     dlg = 313;
                 else if(! dlg)
                     dlg = 328;

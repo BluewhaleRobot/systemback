@@ -845,7 +845,7 @@ uchar sb::exec(cQStr &cmd, uchar flag, cQStr &envv)
                 if(Progress < (cperc = ((inum += proc.readAllStandardOutput().count('\n')) * 100 + 50) / ThrdLng[0])) Progress = cperc;
                 QTS(stderr) << proc.readAllStandardError();
 
-                if(dfree(sdir[2]) < 104857600)
+                if(dfree(sdir[2]) < 204857600)
                 {
                     proc.kill();
                     return exit(255);
@@ -944,7 +944,7 @@ QStr sb::gdetect(cQStr rdir)
 {
     QStr mnts(fload("/proc/self/mounts", true));
     QTS in(&mnts, QIODevice::ReadOnly);
-    QSL incl[]{{"* " % rdir % " *", "* " % rdir % (rdir.endsWith('/') ? nullptr : "/") % "boot *"}, {"_/dev/sd*", "_/dev/hd*", "_/dev/nvme0*", "_/dev/vd*"}};
+    QSL incl[]{{"* " % rdir % " *", "* " % rdir % (rdir.endsWith('/') ? nullptr : "/") % "boot *"}, {"_/dev/sd*", "_/dev/hd*", "_/dev/nvme*", "_/dev/vd*"}};
 
     while(! in.atEnd())
     {
@@ -1847,7 +1847,7 @@ void sb::run()
     case Readprttns:
     {
         ThrdSlst->reserve(25);
-        QSL dlst{"_/dev/sd*", "_/dev/hd*", "_/dev/vd*", "_/dev/nvme0*", "_/dev/mmcblk*"};
+        QSL dlst{"_/dev/sd*", "_/dev/hd*", "_/dev/vd*", "_/dev/nvme*", "_/dev/mmcblk*"};
 
         for(cQStr &spath : QDir("/dev").entryList(QDir::System))
         {
@@ -1951,7 +1951,7 @@ void sb::run()
     {
         ThrdSlst->reserve(10);
         QBA fstab(fload("/etc/fstab"));
-        QSL dlst[]{{"_usb-*", "_mmc-*"}, {"_/dev/sd*", "_/dev/nvme0*", "_/dev/mmcblk*"}};
+        QSL dlst[]{{"_usb-*", "_mmc-*"}, {"_/dev/sd*", "_/dev/nvme*", "_/dev/mmcblk*"}};
 
         for(cQStr &item : QDir("/dev/disk/by-id").entryList(QDir::Files))
         {
@@ -4138,7 +4138,7 @@ bool sb::thrdlvprpr(bool iudata)
     usrs.prepend(isdir("/root") ? "" : nullptr);
     if(ThrdKill) return false;
 
-    bool uhl(dfree("/home") > 104857600 && dfree("/root") > 104857600 && [&usrs] {
+    bool uhl(dfree("/home") > 204857600 && dfree("/root") > 204857600 && [&usrs] {
             QStr mnts(fload("/proc/self/mounts"));
 
             for(uchar a(1) ; a < usrs.count() ; ++a)
