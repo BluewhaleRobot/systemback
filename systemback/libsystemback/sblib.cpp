@@ -440,7 +440,8 @@ QBA sb::fload(cQStr &path)
 bool sb::islnxfs(cQStr &path)
 {
     QTemporaryFile file(path % "/.sbdirtestfile_" % rndstr());
-    return file.open() && file.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadGroup | QFile::ExeGroup | QFile::ReadOther) && file.permissions() == 30548;
+    return file.open() && file.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadGroup | QFile::ExeGroup | QFile::ReadOther)
+        && file.permissions() == (QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadGroup | QFile::ExeGroup | QFile::ReadOther);
 }
 
 bool sb::cerr(uchar type, cQStr &str1, cQStr &str2)
