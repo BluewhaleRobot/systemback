@@ -25,6 +25,10 @@ debuild
 
 ## Changelog
 
+1.8.9
+
+- Fix support for NVMe
+
 1.8.8
 
 - Merge from https://github.com/fconidi/Systemback_source-1.9.4

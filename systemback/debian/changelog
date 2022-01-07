@@ -1,4 +1,7 @@
-systemback (1.8.8) release; urgency=low
+systemback (1.8.9) release; urgency=low
+
+  * 1.8.9
+  * Add support for NVMe
 
   * 1.8.8
   * Merge from https://github.com/fconidi/Systemback_source-1.9.4
@@ -63,4 +66,4 @@ systemback (1.8.8) release; urgency=low
   * Some minor fixes and improvements
   * Import new Hungarian translations
 
- -- Bluewhale Robot <randoms@bwbot.org>  Tue, 27 Oct 2020 15:24:25 +0800
+ -- Bluewhale Robot <randoms@bwbot.org>  Fri, 07 Jan 2021 15:24:25 +0800
