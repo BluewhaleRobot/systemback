@@ -2052,7 +2052,7 @@ void systemback::systemcopy()
                        : fstype == "jfs" ? sb::exec("mkfs.jfs -qL " % lbl % ' ' % part)
                        : fstype == "reiserfs" ? sb::exec("mkfs.reiserfs -ql " % lbl % ' ' % part)
                        : fstype == "xfs" ? sb::exec("mkfs.xfs -fL " % lbl % ' ' % part)
-                       : fstype == "vfat" ? sb::setpflag(part, "boot") ? sb::exec("mkfs.vfat -F 32 -n " % lbl.toUpper() % ' ' % part) : 255
+                       : fstype == "vfat" ? sb::setpflag(part, "boot") ? sb::exec("mkfs.vfat -F 32 -n " % lbl.replace('/', '_').toUpper() % ' ' % part) : 255
                        : fstype == "btrfs" ? (ckd.contains(part) ? 0 : sb::exec("mkfs.btrfs -fL " % lbl % ' ' % part)) ? sb::exec("mkfs.btrfs -L " % lbl % ' ' % part) : 0
                        : sb::exec("mkfs." % fstype % " -FL " % lbl % ' ' % part));
 
