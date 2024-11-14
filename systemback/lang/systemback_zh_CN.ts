@@ -1737,7 +1737,7 @@ These will be defined as restorable configuration files!</source>
 
   -n, --newbackup          新建一个还原点
 
-  -s, --storagedir &lt;路径&gt;  获得或设置花园典储存目录路径
+  -s, --storagedir &lt;路径&gt;  获得或设置还原点储存目录路径
 
   -u, --upgrade            升级当前系统
                            移除不需要的文件和包
